@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Submit Science Plan To Observer</title>
+    <meta name="viewport" 
+    content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" http-equiv="Content-Type"/>
+    <!-- CSS -->
+    <link th:href="@{styles.css}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body style="background-color: #06113C;">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">GEMINI</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/Create}">Create plan</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"  th:href="@{/testplanpage}">Test plan</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/submitplanpage}">Submit plan</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/submitobpage}">Submit to observer</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+    <div class="container-sm mx-auto mt-5" style="border-radius: 30px;">
+        <form style="background-color: white;" th:action="@{/submittob}" th:object="${sci}">
+            <div class="card-body">
+                <div class="text-center" style ="margin-top:10%">
+                    <h1 style="text-align: center;">Submit Science Plan To Observer</h1>
+                </div>
+
+                <div class="row dropdown flex-center">
+                    <p class="col" style="text-align: end">Choose Plan</p>
+                    <br>
+                    <div class="col mb-5" style="align-content: start">
+                        <select name="planno">
+                            <option th:each="colorOpt : ${tested}"
+                                    th:if="${colorOpt.status == colorOpt.status.TESTED}"th:value="${colorOpt.planNo}" th:text="${colorOpt.planNo}"></option>
+                        </select>
+                        <p th:if="${Message}" th:text="${Message}"></p>
+                    </div>
+                    <br>
+                    <button type="submit" class="myBtn" style="width: 100%;">Submit plan to observer</button>
+                </div>
+        </form>
+    </div>
+    
+</body>

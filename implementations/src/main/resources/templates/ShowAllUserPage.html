@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Greeting from Spring</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/main.css}" rel="stylesheet" />
+</head>
+<body>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+    <tr th:each="EachUser: ${ListOfAllUser}">
+        <td th:text="${EachUser.id}"/>
+        <td th:text="${EachUser.name}"/>
+        <td th:text="${EachUser.email}"/>
+
+    </tr>
+
+</table>
+
+</body>
+</html>
+

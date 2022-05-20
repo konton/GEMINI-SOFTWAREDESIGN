@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Create Science Plan</title>
+    
+    <meta name="viewport" 
+    content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes,charset=UTF-8" http-equiv="Content-Type"/>
+    <!-- CSS -->
+    <link th:href="@{styles.css}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body style="background-color: #06113C;">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">GEMINI</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/Create}">Create plan</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"  th:href="@{/testplanpage}">Test plan</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/submitplanpage}">Submit plan</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/submitobpage}">Submit to observer</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+    <!-- CreateSciPlan FORM -->
+    <div class="container-sm mx-auto mt-5" style="border-radius: 30px; margin-top:10%">
+            <form style="background-color: #FFF;"  th:action="@{/CreateSci}" th:object="${SciencePlan}" method="GET">
+                <div class="text-center">
+                        <h1 class="mt-2 logintext">Create Science Plan</h1>
+                        <p th:if="${Message}" th:text="${Message}"></p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="col text-left mt-3">
+                            <label for="inputCreator" class="form-label fw-bold">Creator</label>
+                            <input type="text" class="form-control form-style" placeholder="creator name" th:field="*{creator}" name = "creator" id="inputCreator" required>
+
+                        </div>
+                        <div class="col text-left mt-3">
+                            <label class="form-label fw-bold">Collaborator</label>
+                            <select name="Collaborator">
+                                <option selected> -- please select -- </option>
+                                <option th:each="user : ${User}"
+                                        th:value="${user.name}" th:text="${user.name}"></option>
+                            </select>
+                        </div>
+                        <div class="col text-left mt-3">
+                            <label for="inputSubmitter" class="form-label fw-bold">Submitter</label>
+                            <input type="text" class="form-control" placeholder="submitter name" th:field="*{submitter}" name = "submitter" id="inputSubmitter"required>
+
+                        </div>
+                        <div class="col text-left mt-3">
+                            <label class="form-label fw-bold">Funding</label>
+                            <input type="text" class="form-control" placeholder="number of funding" th:field="*{fundingInUSD}" name = "funding" id="inputFunding"required>
+
+                        </div>
+                        <div class="col text-left mt-3">
+                            <label class="form-label fw-bold">Objective</label>
+                            <input type="text" class="form-control" placeholder="objective" th:field="*{objectives}" name = "objective" id="inputObjective"required>
+
+                        </div>
+                        <br>
+                        <div class="row">
+                            <p class="col flex-fill fw-bold">Star Systems</p>
+                            <select name="constellation">
+                                <option> -- please select -- </option>
+                                <option th:each="colorOpt : ${T(edu.gemini.app.ocs.model.StarSystem.CONSTELLATIONS).values()}"
+                                        th:value="${colorOpt}" th:text="${colorOpt}"></option>
+                            </select>
+                        </div>
+                        <br>
+                        <hr>
+                        <container class="row justify-content-center">
+                            <div class="col">
+                                    <label for="startdate">Start date:</label>
+                                    <input type="date" placeholder="dd/MM/yyyy" id="Startdate" th:field="*{startDate}">
+                            </div>
+                            <div class="col">
+                                    <label for="enddate">End date:</label>
+                                    <input type="date" placeholder="dd/MM/yyyy" id="Enddate"th:field="*{endDate}" >
+                            </div>
+                        </container>
+                        <br>
+                        <hr>
+                        <div class="row">
+                            <p class="col flex-fill fw-bold" >Telescope location</p>
+                                <select name="location">
+                                    <option selected> -- please select -- </option>
+                                    <option th:each="colorOpt : ${T(edu.gemini.app.ocs.model.SciencePlan.TELESCOPELOC).values()}"
+                                            th:value="${colorOpt}" th:text="${colorOpt}"></option>
+                                </select>
+                        </div>
+                        <br>
+                    </div>
+                    <hr>
+                    <h5 class="g-3">Requirements</h5>
+                        <div class="container m-2 d-flex justify-content-start ">
+                            <div class="m-2 ms-2 flex-fill">
+                                <label>File type</label>
+                                <select th:field="*{dataProc}" class="m-2">
+                                    <option value="None"selected> -- please select -- </option>
+                                    <option value="PNG"> PNG </option>
+                                    <option value="JPEG"> JPG </option>
+                                    <option value="RAW"> RAW </option>
+                                </select>
+                            </div>
+                            <div class="m-2 ms-2 flex-fill ">
+                                <label>File quality</label>
+                                <select th:field="*{dataProc}" class="m-2">
+                                    <option value="None" > -- please select -- </option>
+                                    <option  value="Low"  > Low </option>
+                                    <option value="Fine" > Fine </option>
+                                </select>
+                                <!-- <input type="text" class="form-control" placeholder="" th:field="*{dataProc}" name = "filequality" id="inputfilequality"required>-->
+                            </div>
+                            <div class="m-2 ms-2 flex-fill ">
+                                <label>Color type</label>
+                                <select th:field="*{dataProc}" class="m-2" >
+                                    <option value="None" selected> -- please select -- </option>
+                                    <option  value="B&W mode"> B&W mode </option>
+                                    <option  value="Color mode"> Color mode </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="container m-2 d-flex justify-content-start">
+                            <div class="m-2 ms-2 flex-fill">
+                                <label class="form-label">Contrast</label>
+                                <input type="number" class="form-control" placeholder=""  th:field="*{dataProc}" name = "contrast" id="inputContrast"required>
+                            </div>
+                            <div class="m-2 ms-2 flex-fill">
+                                <label class="form-label">Brightness</label>
+                                <input type="number" class="form-control" placeholder="" th:field="*{dataProc}" name = "brightness" id="inputBrightness"required>
+                            </div>
+                            <div class="m-2 ms-2 flex-fill">
+                                <label class="form-label">Saturation</label>
+                                <input type="number" class="form-control" placeholder=""  th:field="*{dataProc}" name = "saturation" id="inputSaturation"required>
+                            </div>
+                            <div class="m-2 ms-2 flex-fill">
+                                <label class="form-label">Highlight</label>
+                                <input type="number" class="form-control" placeholder="" th:field="*{dataProc}" name = "highlight" id="inputHighlight"required>
+                            </div>
+                            <div class="m-2 ms-2 flex-fill">
+                                <label class="form-label">Exposure</label>
+                                <input type="number" class="form-control" placeholder="" th:field="*{dataProc}" name = "exposure" id="inputExposure"required>
+                            </div>
+                        </div>
+
+                        <div class="container m-2 d-flex justify-content-start">
+                            <div class="m-2 ms-2 flex-fill">
+                                <label class="form-label">Shadows</label>
+                                <input type="number" class="form-control" placeholder="" th:field="*{dataProc}" name = "shadows" id="inputShadows"required>
+                            </div>
+                            <div class="m-2 ms-2 flex-fill">
+                                <label class="form-label">Whites</label>
+                                <input type="number" class="form-control" placeholder=""  th:field="*{dataProc}" name = "whites" id="inputWhites"required>
+                            </div>
+                            <div class="m-2 ms-2 flex-fill">
+                                <label class="form-label">Blacks</label>
+                                <input type="number" class="form-control" placeholder="" th:field="*{dataProc}" name = "blacks" id="inputBlacks"required>
+                            </div>
+                            <div class="m-2 ms-2 flex-fill">
+                                <label class="form-label">Luminance</label>
+                                <input type="number" class="form-control" placeholder="" th:field="*{dataProc}" name = "luminance" id="inputLuminance"required>
+                            </div>
+                            <div class="m-2 ms-2 flex-fill">
+                                <label class="form-label">Hue</label>
+                                <input type="number" class="form-control" placeholder="" th:field="*{dataProc}" name = "Hue" id="inputHue"required>
+                            </div>
+                        </div>
+                    <br>
+                    <br>
+                    <div>
+                        <br>
+                        <div class="text-center" style="padding: 10px;">
+                            <button type="submit" class="myBtn" style="width: 100%;">Create</button>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </form>
+    </div>
+</body>
+</html>
